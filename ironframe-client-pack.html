@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ironframe IT — Client Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080810;
+    --dark: #0c0c18;
+    --card: #101020;
+    --card2: #14142a;
+    --border: #1c1c38;
+    --border2: #262650;
+    --iron: #c8c8e0;
+    --iron-dim: #7070a0;
+    --iron-ghost: #303060;
+    --amber: #f59e0b;
+    --amber-dim: rgba(245,158,11,0.12);
+    --amber-glow: rgba(245,158,11,0.06);
+    --white: #f0f0f8;
+    --serif: 'Lora', Georgia, serif;
+    --display: 'Bebas Neue', 'Impact', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--iron);
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── GRAIN ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ── LAYOUT ── */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 28px; }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(245,158,11,0.04) 0%, transparent 50%),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 80px,
+        rgba(255,255,255,0.012) 80px,
+        rgba(255,255,255,0.012) 81px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 80px,
+        rgba(255,255,255,0.012) 80px,
+        rgba(255,255,255,0.012) 81px
+      );
+    pointer-events: none;
+  }
+
+  .cover-top {
+    padding: 40px 48px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo-mark {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .logo-name {
+    font-family: var(--display);
+    font-size: 28px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .logo-name span { color: var(--amber); }
+
+  .logo-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--iron-dim);
+    margin-top: 4px;
+  }
+
+  .cover-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px solid rgba(245,158,11,0.3);
+    padding: 6px 12px;
+    background: var(--amber-dim);
+  }
+
+  .cover-main {
+    padding: 0 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .cover-eyebrow::before { content: ''; display: inline-block; width: 40px; height: 1px; background: var(--amber); }
+
+  .cover-title {
+    font-family: var(--display);
+    font-size: clamp(52px, 9vw, 96px);
+    line-height: 0.92;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    margin-bottom: 32px;
+  }
+
+  .cover-title .amber { color: var(--amber); }
+
+  .cover-desc {
+    font-size: 17px;
+    color: var(--iron-dim);
+    max-width: 520px;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .cover-bottom {
+    padding: 40px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .cover-stats {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-val { font-family: var(--display); font-size: 32px; color: var(--white); letter-spacing: 0.05em; line-height: 1; }
+  .stat-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--iron-ghost); }
+
+  .cover-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-ghost);
+    letter-spacing: 0.1em;
+    text-align: right;
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  .section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--iron-ghost);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(32px, 5vw, 52px);
+    color: var(--white);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 36px;
+  }
+
+  .section-title .amber { color: var(--amber); }
+
+  /* ── PROSE ── */
+  .prose { font-size: 15px; color: var(--iron-dim); line-height: 1.8; }
+  .prose p { margin-bottom: 18px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--iron); font-weight: 600; }
+
+  /* ── QUOTE ── */
+  .pull-quote {
+    border-left: 3px solid var(--amber);
+    padding: 20px 28px;
+    margin: 36px 0;
+    background: var(--amber-glow);
+  }
+  .pull-quote p {
+    font-size: 19px;
+    font-style: italic;
+    color: var(--white);
+    line-height: 1.6;
+  }
+
+  /* ── PROBLEM CARDS ── */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 36px 0;
+  }
+  @media(max-width:600px){ .problem-grid { grid-template-columns: 1fr; } }
+
+  .problem-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px 24px;
+  }
+
+  .problem-icon {
+    font-size: 24px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .problem-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+
+  .problem-desc {
+    font-size: 13px;
+    color: var(--iron-dim);
+    line-height: 1.65;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps { display: flex; flex-direction: column; gap: 2px; margin: 36px 0; }
+
+  .step {
+    display: flex;
+    gap: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  .step-num-col {
+    background: var(--card2);
+    border-right: 1px solid var(--border);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 72px;
+  }
+
+  .step-num {
+    font-family: var(--display);
+    font-size: 36px;
+    color: var(--amber);
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .step-body { padding: 20px 24px; }
+
+  .step-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--iron-dim);
+    line-height: 1.6;
+  }
+
+  /* ── TIERS ── */
+  .tiers { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin: 36px 0; }
+  @media(max-width:680px){ .tiers { grid-template-columns: 1fr; } }
+
+  .tier {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 28px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .tier.featured {
+    background: var(--amber-dim);
+    border-color: var(--amber);
+  }
+
+  .tier-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+
+  .tier-name {
+    font-family: var(--display);
+    font-size: 26px;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .tier-price {
+    font-family: var(--display);
+    font-size: 38px;
+    color: var(--amber);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .tier-price span {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--iron-ghost);
+  }
+
+  .tier-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .tier-includes li {
+    font-size: 12px;
+    color: var(--iron-dim);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .tier-includes li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-size: 10px;
+    top: 2px;
+    font-family: var(--mono);
+  }
+
+  .tier-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-ghost);
+    letter-spacing: 0.08em;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── WHAT YOU GET ── */
+  .deliverables { display: flex; flex-direction: column; gap: 2px; margin: 36px 0; }
+
+  .deliverable {
+    display: flex;
+    gap: 20px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 20px 24px;
+    align-items: flex-start;
+  }
+
+  .deliverable-icon {
+    font-size: 22px;
+    min-width: 32px;
+    padding-top: 2px;
+  }
+
+  .deliverable-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 5px;
+  }
+
+  .deliverable-desc {
+    font-size: 13px;
+    color: var(--iron-dim);
+    line-height: 1.6;
+  }
+
+  /* ── WHO WE ARE ── */
+  .cred-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber);
+    padding: 28px 32px;
+    margin: 36px 0;
+  }
+
+  .cred-block .label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 12px;
+  }
+
+  .cred-block p {
+    font-size: 15px;
+    color: var(--iron-dim);
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+  .cred-block p:last-child { margin-bottom: 0; }
+  .cred-block strong { color: var(--iron); }
+
+  /* ── FAQ ── */
+  .faqs { display: flex; flex-direction: column; gap: 2px; margin: 36px 0; }
+
+  .faq {
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  .faq-q {
+    padding: 18px 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .faq-q:hover { background: var(--card2); }
+  .faq-q .arrow { color: var(--amber); font-size: 14px; transition: transform 0.2s; }
+  .faq.open .faq-q .arrow { transform: rotate(90deg); }
+
+  .faq-a {
+    display: none;
+    padding: 0 24px 18px;
+    font-size: 13px;
+    color: var(--iron-dim);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding-top: 18px;
+  }
+
+  .faq.open .faq-a { display: block; }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: var(--amber-dim);
+    border: 1px solid var(--amber);
+    padding: 40px 40px;
+    margin: 36px 0;
+    text-align: center;
+  }
+
+  .cta-block .cta-title {
+    font-family: var(--display);
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--white);
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+
+  .cta-block .cta-sub {
+    font-size: 14px;
+    color: var(--iron-dim);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  .cta-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+    text-align: left;
+  }
+  @media(max-width:600px){ .cta-steps { grid-template-columns: 1fr; } }
+
+  .cta-step {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border2);
+    padding: 16px 18px;
+  }
+
+  .cta-step-num {
+    font-family: var(--display);
+    font-size: 28px;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .cta-step-text {
+    font-size: 12px;
+    color: var(--iron-dim);
+    line-height: 1.5;
+    font-family: var(--mono);
+  }
+
+  .cta-contact {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(245,158,11,0.4);
+    display: inline-block;
+    padding: 12px 28px;
+    background: rgba(245,158,11,0.08);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 36px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: var(--display);
+    font-size: 20px;
+    color: var(--white);
+    letter-spacing: 0.08em;
+  }
+  .footer-logo span { color: var(--amber); }
+
+  .footer-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-ghost);
+    letter-spacing: 0.1em;
+    text-align: right;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; margin: 24px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--card2); border-bottom: 1px solid var(--border2); }
+  th { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--iron-ghost); padding: 12px 16px; text-align: left; }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--iron-dim); }
+  tr:last-child td { border-bottom: none; }
+  td.amber { color: var(--amber); font-family: var(--mono); }
+  td.white { color: var(--white); }
+
+  @media(max-width:760px){
+    .cover-top, .cover-main, .cover-bottom { padding-left: 24px; padding-right: 24px; }
+    .wrap { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ COVER ════════════ -->
+<section class="cover">
+  <div class="cover-bg"></div>
+
+  <div class="cover-top">
+    <div class="logo-mark">
+      <div class="logo-name">IRON<span>FRAME</span> IT</div>
+      <div class="logo-sub">MSP Documentation Specialists</div>
+    </div>
+    <div class="cover-badge">Client Information Pack · 2026</div>
+  </div>
+
+  <div class="cover-main">
+    <div class="cover-eyebrow">Confidential — Prepared for Your Review</div>
+    <h1 class="cover-title">
+      YOUR MSP.<br>
+      <span class="amber">DOCUMENTED.</span><br>
+      AUDIT-READY.
+    </h1>
+    <p class="cover-desc">
+      Professional IT documentation for UK managed service providers —
+      built remotely, maintained monthly, delivered by a former government infrastructure engineer.
+    </p>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-stats">
+      <div class="stat">
+        <div class="stat-val">3–5</div>
+        <div class="stat-label">Hours saved per technician per week</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">48hr</div>
+        <div class="stat-label">Monthly update turnaround</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">100%</div>
+        <div class="stat-label">Remote delivery</div>
+      </div>
+    </div>
+    <div class="cover-note">
+      ironframeit.co.uk<br>
+      hello@ironframeit.co.uk
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ THE PROBLEM ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">The Problem</div>
+    <h2 class="section-title">EVERY MSP FACES <span class="amber">THIS.</span></h2>
+
+    <div class="prose">
+      <p>You built your MSP on technical skill and trusted relationships. You deliver great service. But underneath, there's a problem that never goes away — and that gets worse as you grow.</p>
+    </div>
+
+    <div class="pull-quote">
+      <p>"We're too busy keeping clients running to write anything down. And we can't run efficiently because nothing's written down."</p>
+    </div>
+
+    <div class="problem-grid">
+      <div class="problem-card">
+        <span class="problem-icon">🧠</span>
+        <div class="problem-title">Knowledge in heads, not systems</div>
+        <div class="problem-desc">Your senior tech holds everything. Client passwords, network layouts, escalation paths — all tribal knowledge. If they left tomorrow, you'd be in serious trouble.</div>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">🐌</span>
+        <div class="problem-title">New tech onboarding takes weeks</div>
+        <div class="problem-desc">Without documentation, every new hire needs hand-holding. Three weeks to get productive, when it should be three days. That's lost revenue and stretched existing staff.</div>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">📋</span>
+        <div class="problem-title">Audits and compliance cause panic</div>
+        <div class="problem-desc">A client asks for your Cyber Essentials documentation. An auditor requests your incident response procedure. And the scramble begins — because nothing exists in a usable form.</div>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">🔥</span>
+        <div class="problem-title">No time to fix it internally</div>
+        <div class="problem-desc">You already know documentation matters. But the tickets keep coming. There's always something more urgent. Documentation gets pushed to "next quarter" — indefinitely.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>This isn't a discipline problem. It's a capacity problem. You need someone whose entire job is documentation — so yours doesn't have to be.</p>
+      <p><strong>That's exactly what Ironframe IT does.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ WHO WE ARE ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">Who We Are</div>
+    <h2 class="section-title">BUILT BY SOMEONE <span class="amber">WHO'S BEEN INSIDE.</span></h2>
+
+    <div class="prose">
+      <p>Ironframe IT was founded by a former government infrastructure engineer with hands-on experience inside the UK's most demanding technical environments — including national-level infrastructure at government security classification level.</p>
+      <p>Before that: real-world MSP experience. Working inside a regional UK managed service provider, supporting SMB clients across regulated industries, fighting the exact fires you fight every day.</p>
+    </div>
+
+    <div class="cred-block">
+      <div class="label">The Ironframe Difference</div>
+      <p><strong>We don't guess at MSP environments.</strong> We've worked inside them. We know what N-able looks like at 2am. We know how a ConnectWise ticket escalation works. We know what a solicitor's network looks like after three engineers have touched it with no documentation.</p>
+      <p><strong>We don't send generic templates.</strong> Every document we produce is built from your actual environment, your actual clients, your actual processes. Our background in government-level infrastructure means we write to a standard that holds up under audit.</p>
+      <p><strong>We work entirely remotely and asynchronously.</strong> No site visits, no day rates, no surprises. A fixed monthly retainer, delivered to your inbox.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Background</th>
+            <th>Relevance to Your MSP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="white">Government-level infrastructure engineering</td>
+            <td>Documentation that holds up under formal audit and regulatory scrutiny</td>
+          </tr>
+          <tr>
+            <td class="white">MSP technician experience (UK regional MSP)</td>
+            <td>We know your stack, your pain points, and your clients' environments</td>
+          </tr>
+          <tr>
+            <td class="white">Cybersecurity, networking, SQL, Power BI</td>
+            <td>Technical accuracy across infrastructure, security, and reporting documentation</td>
+          </tr>
+          <tr>
+            <td class="white">Compliance and cryptography training</td>
+            <td>CE, ISO-adjacent, and GDPR documentation produced to the right standard</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ WHAT WE DELIVER ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">The Deliverables</div>
+    <h2 class="section-title">WHAT YOU <span class="amber">RECEIVE.</span></h2>
+
+    <div class="prose">
+      <p>Every Ironframe IT engagement produces a complete, maintained documentation system for your MSP — not a one-time document dump, but a living knowledge base that's updated monthly as your environment changes.</p>
+    </div>
+
+    <div class="deliverables">
+      <div class="deliverable">
+        <div class="deliverable-icon">🔗</div>
+        <div>
+          <div class="deliverable-title">Network Topology SOPs</div>
+          <div class="deliverable-desc">Per-client network documentation covering IP schema, VLAN configuration, firewall rules, connectivity, DNS, and infrastructure components. Any tech can pick this up and understand the environment in minutes — not hours.</div>
+        </div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-icon">📖</div>
+        <div>
+          <div class="deliverable-title">Runbooks & Standard Operating Procedures</div>
+          <div class="deliverable-desc">Step-by-step procedures for recurring processes — patch management, backup verification, monthly maintenance tasks, client-specific workflows. Eliminates the "how do we do this again?" conversation.</div>
+        </div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-icon">👤</div>
+        <div>
+          <div class="deliverable-title">Technician Onboarding Handbook</div>
+          <div class="deliverable-desc">A complete first-90-days guide for new hires — tool access, client introductions, escalation matrix, your service desk process, and sign-off checklists. Cuts onboarding time from weeks to days.</div>
+        </div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-icon">🚨</div>
+        <div>
+          <div class="deliverable-title">Incident Response Runbooks</div>
+          <div class="deliverable-desc">P1/P2 response procedures for server outages, ransomware detection, WAN failures, and other critical incidents. Includes client communication templates, ICO notification decision guidance, and post-incident review process.</div>
+        </div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-icon">🔄</div>
+        <div>
+          <div class="deliverable-title">Monthly Update Cycle</div>
+          <div class="deliverable-desc">Your environment changes. Your documentation keeps pace. Submit changes via a simple form — updated documents returned within 48 hours. No backlog, no outdated runbooks, no chasing.</div>
+        </div>
+      </div>
+      <div class="deliverable">
+        <div class="deliverable-icon">📊</div>
+        <div>
+          <div class="deliverable-title">Cyber Essentials Readiness Reporting (Operator Tier)</div>
+          <div class="deliverable-desc">For Operator-tier clients: quarterly CE readiness reports and cyber awareness training materials you can pass to your SMB clients — adding a compliance service layer to your own offering at no extra delivery cost.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <p>All documents are delivered as clean PDFs and/or a structured Notion workspace — whichever your team prefers. No proprietary platform lock-in. Your documentation belongs to you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ HOW IT WORKS ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">The Process</div>
+    <h2 class="section-title">HOW IT <span class="amber">WORKS.</span></h2>
+
+    <div class="prose">
+      <p>Entirely remote. Minimal time from you after the onboarding call. Here's the process from first conversation to delivered documentation.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num-col"><div class="step-num">01</div></div>
+        <div class="step-body">
+          <div class="step-title">Discovery Call — 30 Minutes</div>
+          <div class="step-desc">A structured 30-minute call to understand your MSP's environment, your current documentation state, and your priorities. Audio only — no travel, no video required. We work from a structured intake questionnaire that gets everything we need in one session.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num-col"><div class="step-num">02</div></div>
+        <div class="step-body">
+          <div class="step-title">Intake Form Completion</div>
+          <div class="step-desc">After the call, you complete a detailed intake form covering your client environments, tool stack, processes, and team structure. Typically takes 45–60 minutes and can be done across multiple sittings. This is the foundation everything is built from.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num-col"><div class="step-num">03</div></div>
+        <div class="step-body">
+          <div class="step-title">Documentation Build — 5 Working Days</div>
+          <div class="step-desc">We build your complete documentation suite from your intake data. Every document is written specifically for your environment — not adapted from a template. Technical accuracy is reviewed against our infrastructure engineering background before delivery.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num-col"><div class="step-num">04</div></div>
+        <div class="step-body">
+          <div class="step-title">Review & Revision Round</div>
+          <div class="step-desc">You review the delivered documentation and flag any inaccuracies or additions. One full revision round is included. Most clients find 90%+ of the first delivery is accurate straight away — because the intake form does the heavy lifting.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num-col"><div class="step-num">05</div></div>
+        <div class="step-body">
+          <div class="step-title">Monthly Update Cycle — Ongoing</div>
+          <div class="step-desc">Submit changes via a simple shared form. New client onboarded? Infrastructure updated? New process introduced? Updates are delivered within 48 hours. Your documentation stays current without any effort from your team.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ PRICING ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">SIMPLE. FIXED. <span class="amber">MONTHLY.</span></h2>
+
+    <div class="prose">
+      <p>Three tiers. No hourly rates, no project quotes, no surprise invoices. A fixed monthly retainer so you can budget with certainty. All tiers include a 3-month minimum commitment.</p>
+    </div>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-tag">Foundation</div>
+        <div class="tier-name">STARTER</div>
+        <div class="tier-price">£1,200<span>/mo</span></div>
+        <ul class="tier-includes">
+          <li>1 network topology SOP</li>
+          <li>1 standard operating procedure</li>
+          <li>1 incident response template</li>
+          <li>Monthly update cycle (48hr)</li>
+          <li>PDF + Notion delivery</li>
+          <li>Email support</li>
+        </ul>
+        <div class="tier-note">Best for: First engagement. Proof of concept before scaling up.</div>
+      </div>
+
+      <div class="tier featured">
+        <div class="tier-tag">⭐ Most Popular — Engine</div>
+        <div class="tier-name">FULL SUITE</div>
+        <div class="tier-price">£2,500<span>/mo</span></div>
+        <ul class="tier-includes">
+          <li>Complete network documentation (all clients)</li>
+          <li>Full runbook library</li>
+          <li>Technician onboarding handbook</li>
+          <li>Incident response runbooks (P1–P4)</li>
+          <li>Client-specific SOPs</li>
+          <li>Monthly update cycle (48hr)</li>
+          <li>PDF + Notion delivery</li>
+          <li>Priority email + async support</li>
+        </ul>
+        <div class="tier-note">Best for: MSPs with 5–30 staff ready to eliminate documentation debt properly.</div>
+      </div>
+
+      <div class="tier">
+        <div class="tier-tag">Operator</div>
+        <div class="tier-name">PREMIUM</div>
+        <div class="tier-price">£5,000<span>/mo</span></div>
+        <ul class="tier-includes">
+          <li>Everything in Full Suite</li>
+          <li>Quarterly Cyber Essentials readiness reports</li>
+          <li>Cyber awareness training materials for your SMB clients</li>
+          <li>GDPR / ICO-adjacent policy documentation</li>
+          <li>Compliance evidence pack</li>
+          <li>Monthly update cycle (24hr)</li>
+          <li>Dedicated async channel</li>
+        </ul>
+        <div class="tier-note">Best for: MSPs in regulated verticals (legal, finance, healthcare) or targeting compliance-heavy clients.</div>
+      </div>
+    </div>
+
+    <div class="cred-block">
+      <div class="label">Terms & Commitments</div>
+      <p><strong>3-month minimum commitment</strong> on all tiers. 50% deposit on signature, 50% on first delivery. Quarterly renewals with 30 days' notice to cancel. All documentation produced belongs to you — no licence fees, no platform lock-in.</p>
+      <p><strong>Not sure which tier?</strong> Start with Foundation for one month as a paid proof of concept, then move to Full Suite once you've seen the quality. Most clients move up within the first quarter.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ WHY NOW ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">Market Context</div>
+    <h2 class="section-title">WHY THIS MATTERS <span class="amber">RIGHT NOW.</span></h2>
+
+    <div class="prose">
+      <p>Documentation has always mattered. But three things happening in 2026 make it urgent in a way it hasn't been before.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num-col"><div class="step-num" style="font-size:24px;">CE</div></div>
+        <div class="step-body">
+          <div class="step-title">Cyber Essentials v3.3 — New Requirements Now Active</div>
+          <div class="step-desc">The 2026 CE update introduced mandatory MFA across all user accounts and a 14-day critical patching window. MSPs serving clients in regulated sectors are scrambling to produce evidence-ready documentation that proves compliance. An audit without documentation is a failed audit.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num-col"><div class="step-num" style="font-size:24px;">ICO</div></div>
+        <div class="step-body">
+          <div class="step-title">UK GDPR Enforcement Is Accelerating</div>
+          <div class="step-desc">ICO enforcement actions against SMBs and their service providers have increased sharply. A ransomware incident without a documented incident response procedure — and evidence it was followed — is now a serious regulatory exposure, not just an operational problem.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num-col"><div class="step-num" style="font-size:24px;">AI</div></div>
+        <div class="step-body">
+          <div class="step-title">Your Competitors Are Already Using AI — Are You Benefiting?</div>
+          <div class="step-desc">AI tools are changing what's possible in documentation speed and quality. MSPs that have clean, current documentation can leverage AI for faster troubleshooting, better client reporting, and faster onboarding. MSPs without it fall further behind. This gap is widening every quarter.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>"The cost of not having documentation is invisible — until a senior tech leaves, an auditor asks a question you can't answer, or a client cancels because your response time doubled after a staff change."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ SAMPLE WORK ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">Sample Work</div>
+    <h2 class="section-title">WHAT OUR DOCUMENTS <span class="amber">LOOK LIKE.</span></h2>
+
+    <div class="prose">
+      <p>Below are extracts from three documents produced for fictional client environments — representative of the quality and depth of every Ironframe IT deliverable.</p>
+    </div>
+
+    <div class="deliverables">
+      <div class="deliverable">
+        <div class="deliverable-icon">🔗</div>
+        <div style="width:100%">
+          <div class="deliverable-title">Extract — Network Topology SOP · Hartley &amp; Partners Solicitors</div>
+          <div style="margin-top:12px;background:#08080f;border:1px solid var(--border);padding:18px 20px;font-family:var(--mono);font-size:11px;color:#7070a0;line-height:1.8;">
+            <span style="color:var(--amber)">VLAN CONFIGURATION</span><br>
+            VLAN 10 · Staff · 192.168.10.0/24 · All end-user workstations and laptops<br>
+            VLAN 20 · Management · 192.168.20.0/24 · Network infrastructure, Hyper-V hosts, UniFi controller<br>
+            VLAN 30 · Devices · 192.168.30.0/24 · Printers, scanners, AV equipment<br>
+            VLAN 40 · Guest · 192.168.40.0/24 · Isolated, internet-only, no LAN routing<br><br>
+            <span style="color:var(--amber)">BACKUP ARCHITECTURE</span><br>
+            Primary: Veeam B&amp;R → local Synology NAS (2hr RPO)<br>
+            Secondary: Nightly replication → Wasabi S3 (MSP-managed bucket, AES-256)<br>
+            Retention: 14 daily, 4 weekly, 3 monthly recovery points<br>
+            Last verified restore: logged in ConnectWise — see ticket #MW-4471
+          </div>
+          <div style="margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--iron-ghost);">Full document: 8 pages · Delivered as PDF + Notion · Includes full IP schema, contact directory, change log</div>
+        </div>
+      </div>
+
+      <div class="deliverable">
+        <div class="deliverable-icon">🚨</div>
+        <div style="width:100%">
+          <div class="deliverable-title">Extract — Incident Response Runbook · Ransomware Detection Protocol</div>
+          <div style="margin-top:12px;background:#08080f;border:1px solid var(--border);padding:18px 20px;font-family:var(--mono);font-size:11px;color:#7070a0;line-height:1.8;">
+            <span style="color:#f87171">⚠ RANSOMWARE DETECTION — IMMEDIATE ACTIONS (T+0 to T+15 min)</span><br><br>
+            1. Do NOT reboot the affected device — preserves forensic evidence<br>
+            2. Isolate immediately: disconnect from network at switch port level via N-able<br>
+            3. [DECISION] Are any servers showing encryption activity in Veeam or Sophos Central?<br>
+            &nbsp;&nbsp;&nbsp;→ YES: Invoke full isolation protocol — proceed to Step 4<br>
+            &nbsp;&nbsp;&nbsp;→ NO: Single endpoint containment — proceed to Step 7<br>
+            4. Suspend all scheduled backup jobs — prevent encryption of backup targets<br>
+            5. Page on-call senior engineer via PagerDuty — do not attempt remediation alone<br><br>
+            <span style="color:var(--amber)">ICO NOTIFICATION WINDOW: 72 hours from detection if personal data involved</span>
+          </div>
+          <div style="margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--iron-ghost);">Full document: 14 pages · Covers server outage, ransomware, WAN failure · Includes client comms templates</div>
+        </div>
+      </div>
+
+      <div class="deliverable">
+        <div class="deliverable-icon">👤</div>
+        <div style="width:100%">
+          <div class="deliverable-title">Extract — Technician Onboarding Checklist · Day 1 Actions</div>
+          <div style="margin-top:12px;background:#08080f;border:1px solid var(--border);padding:18px 20px;font-family:var(--mono);font-size:11px;color:#7070a0;line-height:1.8;">
+            <span style="color:var(--amber)">DAY 1 — ACCESS PROVISIONING CHECKLIST</span><br><br>
+            [&nbsp;] Microsoft 365 account created · assigned Business Premium licence<br>
+            [&nbsp;] N-able N-sight access granted · role: Technician · MFA enforced<br>
+            [&nbsp;] ConnectWise Manage login · assigned to service board: General Support<br>
+            [&nbsp;] IT Glue access provisioned · read-only until Week 2 sign-off<br>
+            [&nbsp;] 3CX softphone installed · extension assigned · test call completed<br>
+            [&nbsp;] Bitwarden Teams invite sent · password vault populated<br>
+            [&nbsp;] Acceptable Use Policy signed (see SharePoint: HR &gt; Onboarding)<br>
+            [&nbsp;] Shadow first ticket with Priya Sharma (Service Desk Lead) — P3 or P4 only
+          </div>
+          <div style="margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--iron-ghost);">Full document: 11 pages · Covers Days 1–90 · Includes escalation matrix, sign-off sheet, tool access guide</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cred-block">
+      <div class="label">A Note on Sample Documents</div>
+      <p>These extracts are from documents built for fictional client environments — produced to demonstrate the quality and depth of a real Ironframe IT engagement. <strong>We are happy to build a real sample document for your specific environment at no cost before you commit.</strong> One real runbook, based on your actual systems. That's the best proof we can offer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FAQ ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-label">Common Questions</div>
+    <h2 class="section-title">QUESTIONS <span class="amber">ANSWERED.</span></h2>
+
+    <div class="faqs">
+      <div class="faq open">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          How long does the first documentation build take?
+          <span class="arrow">›</span>
+        </div>
+        <div class="faq-a">First delivery is within 5 working days of receiving your completed intake form. For Full Suite engagements, we typically deliver in phases — core network docs and runbooks first, then onboarding handbook and incident response library within the first two weeks.</div>
+      </div>
+
+      <div class="faq">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          How much time does this require from my team?
+          <span class="arrow">›</span>
+        </div>
+        <div class="faq-a">After the initial 30-min discovery call and 45-60 min intake form (one-time), your ongoing commitment is minimal. Monthly updates: submit changes via a simple form — typically 15–20 minutes per month. Review of deliverables: 30–45 minutes per delivery. That's it. The heavy lifting is ours.</div>
+      </div>
+
+      <div class="faq">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Is this just AI-generated content?
+          <span class="arrow">›</span>
+        </div>
+        <div class="faq-a">No. Every document is built from your actual environment data and reviewed by our infrastructure engineer before delivery. AI tools assist with drafting speed — the technical accuracy pass, the infrastructure-specific logic, the compliance-relevant content, and the quality review are all human. That's why we can guarantee it holds up under audit, and why our background in government-level infrastructure matters.</div>
+      </div>
+
+      <div class="faq">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          What format are documents delivered in?
+          <span class="arrow">›</span>
+        </div>
+        <div class="faq-a">Your choice — clean PDFs for each document, a structured Notion workspace for easy navigation and search, or both. Most clients take both: PDFs for formal records and audits, Notion for day-to-day technician access.</div>
+      </div>
+
+      <div class="faq">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Can you document our client environments as well as our internal processes?
+          <span class="arrow">›</span>
+        </div>
+        <div class="faq-a">Yes. Full Suite and Operator tier cover both: your internal MSP operations (onboarding, incident response, runbooks) AND per-client network documentation for your managed clients. We scope the number of client environments during the discovery call — most MSPs in the 5–30 staff range have 10–40 managed clients.</div>
+      </div>
+
+      <div class="faq">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          What happens if our environment changes significantly?
+          <span class="arrow">›</span>
+        </div>
+        <div class="faq-a">That's exactly what the monthly update cycle is for. Major changes (e.g. migrating a client from on-prem to Azure, onboarding a new large client) may require a brief additional intake call — included at no extra cost. The retainer is designed so that documentation stays current regardless of how fast you grow.</div>
+      </div>
+
+      <div class="faq">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          We already have IT Glue / Hudu. Do we still need this?
+          <span class="arrow">›</span>
+        </div>
+        <div class="faq-a">IT Glue and Hudu are platforms — they store documentation. Ironframe IT creates the documentation that goes into them. Most of our clients use one of these platforms and we deliver content directly formatted for their chosen system. The tools don't write the runbooks. We do.</div>
+      </div>
+
+      <div class="faq">
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+          Can we cancel anytime?
+          <span class="arrow">›</span>
+        </div>
+        <div class="faq-a">After the initial 3-month minimum commitment, cancellation requires 30 days' written notice. All documentation produced during your engagement is yours to keep — no access restrictions, no platform fees, no conditions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CTA ════════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="cta-block">
+      <div class="cta-title">READY TO GET STARTED?</div>
+      <div class="cta-sub">Three steps from this pack to your first documentation delivery.</div>
+
+      <div class="cta-steps">
+        <div class="cta-step">
+          <div class="cta-step-num">01</div>
+          <div class="cta-step-text">Reply to our message or email hello@ironframeit.co.uk to book a 30-min discovery call.</div>
+        </div>
+        <div class="cta-step">
+          <div class="cta-step-num">02</div>
+          <div class="cta-step-text">We send you the intake form. You complete it at your own pace — typically 45–60 minutes.</div>
+        </div>
+        <div class="cta-step">
+          <div class="cta-step-num">03</div>
+          <div class="cta-step-text">First documentation delivered within 5 working days. Review, approve, and you're live.</div>
+        </div>
+      </div>
+
+      <div class="cta-contact">hello@ironframeit.co.uk · ironframeit.co.uk</div>
+    </div>
+
+    <div class="prose">
+      <p style="font-size:13px;color:var(--iron-ghost);text-align:center;">No hard sell. No obligation after the discovery call. If we're not the right fit, we'll tell you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<div style="border-top:1px solid var(--border);">
+  <div class="wrap">
+    <div class="footer">
+      <div>
+        <div class="footer-logo">IRON<span>FRAME</span> IT</div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--iron-ghost);margin-top:4px;">MSP Documentation Specialists · UK</div>
+      </div>
+      <div class="footer-note">
+        © 2026 Ironframe IT · All rights reserved<br>
+        Documentation that holds up under scrutiny.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // FAQ toggle is handled inline via onclick
+  // Smooth scroll for any anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+</body>
+</html>
