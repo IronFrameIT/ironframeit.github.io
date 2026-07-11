@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ironframe IT — ナレッジマネジメント・DX支援</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080810;
+    --dark: #0c0c18;
+    --card: #101020;
+    --card2: #14142a;
+    --border: #1c1c38;
+    --border2: #262650;
+    --iron: #c8c8e0;
+    --iron-dim: #7070a0;
+    --iron-ghost: #303060;
+    --amber: #f59e0b;
+    --amber-dim: rgba(245,158,11,0.10);
+    --amber-glow: rgba(245,158,11,0.05);
+    --red: #e53e3e;
+    --red-dim: rgba(229,62,62,0.10);
+    --white: #f0f0f8;
+    --display: 'Bebas Neue', Impact, sans-serif;
+    --mono: 'DM Mono', monospace;
+    --jp: 'Noto Sans JP', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--iron);
+    font-family: var(--jp);
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 28px; }
+
+  /* LANGUAGE TOGGLE */
+  .lang-bar {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .lang-bar-left {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--iron-ghost);
+  }
+
+  .lang-toggle {
+    display: flex;
+    gap: 4px;
+  }
+
+  .lang-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--iron-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .lang-btn.active {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #000;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(245,158,11,0.03) 0%, transparent 50%),
+      linear-gradient(225deg, rgba(229,62,62,0.03) 0%, transparent 50%),
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.008) 80px, rgba(255,255,255,0.008) 81px),
+      repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255,255,255,0.008) 80px, rgba(255,255,255,0.008) 81px);
+    pointer-events: none;
+  }
+
+  /* Japanese circuit pattern overlay */
+  .cover-bg::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 40%;
+    height: 100%;
+    background: radial-gradient(ellipse at top right, rgba(229,62,62,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .cover-top {
+    padding: 36px 48px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .logo-mark {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .logo-name {
+    font-family: var(--display);
+    font-size: 26px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .logo-name span { color: var(--amber); }
+
+  .logo-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--iron-dim);
+    margin-top: 3px;
+  }
+
+  .logo-jp {
+    font-family: var(--jp);
+    font-size: 11px;
+    color: var(--iron-ghost);
+    margin-top: 2px;
+    letter-spacing: 0.1em;
+  }
+
+  .cover-badge {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+  }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border: 1px solid;
+  }
+
+  .badge-amber { color: var(--amber); border-color: rgba(245,158,11,0.3); background: var(--amber-dim); }
+  .badge-red { color: var(--red); border-color: rgba(229,62,62,0.3); background: var(--red-dim); }
+
+  .cover-main {
+    padding: 0 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cover-eyebrow::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--amber); }
+
+  .cover-title-jp {
+    font-family: var(--jp);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .cover-title-jp span { color: var(--amber); }
+
+  .cover-title-en {
+    font-family: var(--display);
+    font-size: clamp(36px, 6vw, 68px);
+    line-height: 0.95;
+    color: var(--iron-ghost);
+    letter-spacing: 0.03em;
+    margin-bottom: 28px;
+  }
+
+  .cover-desc {
+    font-size: 15px;
+    color: var(--iron-dim);
+    max-width: 540px;
+    line-height: 1.85;
+    margin-bottom: 32px;
+  }
+
+  .cover-desc-en {
+    font-size: 13px;
+    color: var(--iron-ghost);
+    max-width: 540px;
+    line-height: 1.7;
+    font-family: var(--mono);
+    border-left: 2px solid var(--border2);
+    padding-left: 16px;
+  }
+
+  .cover-bottom {
+    padding: 32px 48px;
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .cover-stats {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+
+  .stat-val {
+    font-family: var(--display);
+    font-size: 30px;
+    color: var(--white);
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .stat-val.red { color: var(--red); }
+  .stat-val.amber { color: var(--amber); }
+
+  .stat-label-jp {
+    font-size: 11px;
+    color: var(--iron-ghost);
+    letter-spacing: 0.05em;
+  }
+
+  .stat-label-en {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--iron-ghost);
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  /* SECTIONS */
+  .section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--iron-ghost);
+    margin-bottom: 6px;
+  }
+
+  .section-title-jp {
+    font-family: var(--jp);
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .section-title-jp span { color: var(--amber); }
+
+  .section-title-en {
+    font-family: var(--display);
+    font-size: clamp(18px, 2.5vw, 26px);
+    color: var(--iron-ghost);
+    letter-spacing: 0.05em;
+    margin-bottom: 32px;
+  }
+
+  /* PROBLEM SECTION */
+  .cliff-block {
+    background: var(--red-dim);
+    border: 1px solid rgba(229,62,62,0.25);
+    border-left: 3px solid var(--red);
+    padding: 28px 32px;
+    margin: 28px 0;
+  }
+
+  .cliff-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+
+  .cliff-title {
+    font-family: var(--jp);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .cliff-desc {
+    font-size: 14px;
+    color: var(--iron-dim);
+    line-height: 1.8;
+  }
+
+  /* KNOWLEDGE CONCEPT */
+  .knowledge-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 28px 0;
+  }
+
+  @media(max-width:600px) { .knowledge-grid { grid-template-columns: 1fr; } }
+
+  .knowledge-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+  }
+
+  .knowledge-card.highlight {
+    background: var(--amber-dim);
+    border-color: rgba(245,158,11,0.3);
+  }
+
+  .knowledge-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .knowledge-term-jp {
+    font-family: var(--jp);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+
+  .knowledge-term-en {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--iron-ghost);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .knowledge-desc {
+    font-size: 13px;
+    color: var(--iron-dim);
+    line-height: 1.75;
+  }
+
+  .arrow-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+  }
+
+  .arrow-text {
+    font-family: var(--display);
+    font-size: 36px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+  }
+
+  /* SERVICES */
+  .services { display: flex; flex-direction: column; gap: 2px; margin: 28px 0; }
+
+  .service {
+    display: flex;
+    gap: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  .service-num {
+    background: var(--card2);
+    border-right: 1px solid var(--border);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    font-family: var(--display);
+    font-size: 28px;
+    color: var(--amber);
+    letter-spacing: 0.05em;
+  }
+
+  .service-body { padding: 20px 24px; }
+
+  .service-title-jp {
+    font-family: var(--jp);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 3px;
+  }
+
+  .service-title-en {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+
+  .service-desc {
+    font-size: 13px;
+    color: var(--iron-dim);
+    line-height: 1.7;
+  }
+
+  /* WHY US */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin: 28px 0;
+  }
+
+  @media(max-width:600px) { .why-grid { grid-template-columns: 1fr; } }
+
+  .why-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px;
+  }
+
+  .why-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+
+  .why-title {
+    font-family: var(--jp);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .why-desc {
+    font-size: 13px;
+    color: var(--iron-dim);
+    line-height: 1.7;
+  }
+
+  /* SUBSIDY BLOCK */
+  .subsidy-block {
+    background: var(--amber-dim);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-left: 3px solid var(--amber);
+    padding: 28px 32px;
+    margin: 28px 0;
+  }
+
+  .subsidy-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .subsidy-title {
+    font-family: var(--jp);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .subsidy-desc {
+    font-size: 14px;
+    color: var(--iron-dim);
+    line-height: 1.8;
+  }
+
+  .subsidy-amount {
+    font-family: var(--display);
+    font-size: 36px;
+    color: var(--amber);
+    letter-spacing: 0.05em;
+    margin: 12px 0 4px;
+    line-height: 1;
+  }
+
+  /* PRICING */
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin: 28px 0;
+  }
+
+  @media(max-width:680px) { .tiers { grid-template-columns: 1fr; } }
+
+  .tier {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tier.featured {
+    background: var(--amber-dim);
+    border-color: rgba(245,158,11,0.4);
+  }
+
+  .tier-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+
+  .tier-name-jp {
+    font-family: var(--jp);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .tier-price {
+    font-family: var(--display);
+    font-size: 30px;
+    color: var(--amber);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .tier-price span {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--iron-ghost);
+  }
+
+  .tier-price-jp {
+    font-family: var(--jp);
+    font-size: 12px;
+    color: var(--iron-ghost);
+    margin-top: 2px;
+  }
+
+  .tier-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .tier-includes li {
+    font-size: 12px;
+    color: var(--iron-dim);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .tier-includes li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-size: 10px;
+    font-family: var(--mono);
+    top: 2px;
+  }
+
+  /* CTA */
+  .cta-block {
+    background: var(--amber-dim);
+    border: 1px solid rgba(245,158,11,0.3);
+    padding: 40px;
+    margin: 28px 0;
+    text-align: center;
+  }
+
+  .cta-title-jp {
+    font-family: var(--jp);
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .cta-sub {
+    font-size: 14px;
+    color: var(--iron-dim);
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .cta-contact {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--amber);
+    letter-spacing: 0.1em;
+    border: 1px solid rgba(245,158,11,0.4);
+    display: inline-block;
+    padding: 12px 28px;
+    background: rgba(245,158,11,0.08);
+  }
+
+  .cta-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+
+  @media(max-width:600px) { .cta-steps { grid-template-columns: 1fr; } }
+
+  .cta-step {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border2);
+    padding: 14px 16px;
+  }
+
+  .cta-step-num {
+    font-family: var(--display);
+    font-size: 24px;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .cta-step-jp {
+    font-size: 12px;
+    color: var(--iron-dim);
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .footer {
+    padding: 36px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-logo {
+    font-family: var(--display);
+    font-size: 18px;
+    color: var(--white);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-logo span { color: var(--amber); }
+
+  .footer-note {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--iron-ghost);
+    letter-spacing: 0.1em;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* PROSE */
+  .prose { font-size: 14px; color: var(--iron-dim); line-height: 1.85; }
+  .prose p { margin-bottom: 14px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--iron); font-weight: 500; }
+
+  .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+  @media(max-width:760px) {
+    .cover-top, .cover-main, .cover-bottom { padding-left: 20px; padding-right: 20px; }
+    .wrap { padding: 0 16px; }
+    .tiers { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <div class="lang-bar-left">IRONFRAME IT · UK & JAPAN</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('ja')">日本語</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<!-- COVER -->
+<section class="cover">
+  <div class="cover-bg"></div>
+
+  <div class="cover-top">
+    <div class="logo-mark">
+      <div class="logo-name">IRON<span>FRAME</span> IT</div>
+      <div class="logo-sub">Knowledge Management Specialists</div>
+      <div class="logo-jp">ナレッジマネジメント・DX支援</div>
+    </div>
+    <div class="cover-badge">
+      <div class="badge badge-red">2025年の崖 — 対応中</div>
+      <div class="badge badge-amber">UK & Japan · Remote Delivery</div>
+    </div>
+  </div>
+
+  <div class="cover-main">
+    <div class="cover-eyebrow">日本のDX変革を支援する</div>
+    <h1 class="cover-title-jp">
+      退職前に、<span>知識を守る。</span><br>
+      デジタル化の前に、<span>基盤を作る。</span>
+    </h1>
+    <div class="cover-title-en">BEFORE THE KNOWLEDGE LEAVES.</div>
+    <p class="cover-desc">
+      熟練エンジニアが退職する前に、暗黙知を形式知へ。<br>
+      Ironframe ITは日本のSMEが直面するDX課題に対し、<br>
+      英国政府レベルのインフラ経験を持つ専門家が<br>
+      完全リモートで対応します。
+    </p>
+    <p class="cover-desc-en">
+      We convert tacit knowledge (暗黙知) into documented, audit-ready systems before your most experienced engineers retire. Remote delivery from the UK. Bilingual documentation available.
+    </p>
+  </div>
+
+  <div class="cover-bottom">
+    <div class="cover-stats">
+      <div class="stat">
+        <div class="stat-val red">43万人</div>
+        <div class="stat-label-jp">2030年のIT人材不足予測</div>
+        <div class="stat-label-en">IT professional shortfall by 2030</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val red">80%</div>
+        <div class="stat-label-jp">レガシーシステムを抱える企業</div>
+        <div class="stat-label-en">Enterprises with undocumented legacy systems</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val amber">¥450万</div>
+        <div class="stat-label-jp">IT導入補助金の最大支援額</div>
+        <div class="stat-label-en">Max government IT subsidy available</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">The Problem · 課題</div>
+    <h2 class="section-title-jp">日本が直面する<span>「2025年の崖」</span></h2>
+    <div class="section-title-en">JAPAN'S DIGITAL CLIFF</div>
+
+    <div class="cliff-block">
+      <div class="cliff-label">METI警告 — 経済産業省</div>
+      <div class="cliff-title">2025年の崖（デジタルクリフ）</div>
+      <div class="cliff-desc">経済産業省は2018年に警告を発しました。日本企業の約80%が1980〜90年代に構築されたレガシーシステムを抱え、そのシステムを理解するエンジニアの60%以上がすでに50歳以上。退職とともに、誰も把握していない「暗黙知」が失われていきます。</div>
+    </div>
+
+    <div class="prose">
+      <p>これはITの問題ではありません。<strong>知識継承の問題</strong>です。システムの使い方、設定の理由、例外処理のノウハウ——すべてが特定の担当者の頭の中にだけあり、文書化されていません。</p>
+      <p>Ironframe ITはこの課題を解決するために存在します。英国政府レベルのインフラエンジニアリング経験を持つ専門家が、貴社のシステムと業務プロセスを体系的に文書化します。</p>
+    </div>
+
+    <div class="knowledge-grid">
+      <div class="knowledge-card">
+        <span class="knowledge-icon">🧠</span>
+        <div class="knowledge-term-jp">暗黙知</div>
+        <div class="knowledge-term-en">Tacit Knowledge</div>
+        <div class="knowledge-desc">個人の経験や勘に依存した知識。言語化されておらず、担当者が退職すると失われる。日本企業が最も多く抱えるリスク。</div>
+      </div>
+      <div class="knowledge-card highlight">
+        <span class="knowledge-icon">📋</span>
+        <div class="knowledge-term-jp">形式知</div>
+        <div class="knowledge-term-en">Explicit Knowledge</div>
+        <div class="knowledge-desc">文書化・体系化された知識。誰でもアクセスでき、引き継ぎが可能。Ironframe ITが提供する成果物の形式。</div>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:16px;">
+      <p>この「暗黙知から形式知へ」の転換は、野中郁次郎氏が提唱したSECIモデルの核心概念です。Ironframe ITはこの理論を実践的なドキュメンテーションサービスとして提供します。</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">Services · サービス内容</div>
+    <h2 class="section-title-jp">Ironframe ITが<span>提供するもの</span></h2>
+    <div class="section-title-en">WHAT WE DELIVER</div>
+
+    <div class="services">
+      <div class="service">
+        <div class="service-num">01</div>
+        <div class="service-body">
+          <div class="service-title-jp">ナレッジマネジメントフレームワーク</div>
+          <div class="service-title-en">Knowledge Management Framework</div>
+          <div class="service-desc">退職予定のエンジニアや熟練社員が持つ暗黙知を体系的に収集・文書化。プログラム引き継ぎ、技術的意思決定の記録、業務プロセスのSOP化まで対応。</div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-num">02</div>
+        <div class="service-body">
+          <div class="service-title-jp">システム・ネットワーク文書化</div>
+          <div class="service-title-en">System & Network Documentation</div>
+          <div class="service-desc">レガシーシステムの構成図、ネットワークトポロジー、設定根拠の文書化。監査対応・引き継ぎ対応の両方に使える形式で提供。</div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-num">03</div>
+        <div class="service-body">
+          <div class="service-title-jp">インシデント対応ランブック</div>
+          <div class="service-title-en">Incident Response Runbooks</div>
+          <div class="service-desc">障害発生時に誰でも対応できるステップバイステップの手順書。重大インシデント（P1/P2）から標準対応まで。担当者不在でも業務継続が可能に。</div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-num">04</div>
+        <div class="service-body">
+          <div class="service-title-jp">新人・中途社員オンボーディング文書</div>
+          <div class="service-title-en">Onboarding Handbooks</div>
+          <div class="service-desc">新入社員が3週間ではなく3日で戦力化できるオンボーディングハンドブック。IT人材不足が深刻な今、採用後の立ち上がり速度は競争優位です。</div>
+        </div>
+      </div>
+      <div class="service">
+        <div class="service-num">05</div>
+        <div class="service-body">
+          <div class="service-title-jp">月次更新サイクル</div>
+          <div class="service-title-en">Monthly Update Cycle</div>
+          <div class="service-desc">環境が変わっても文書は常に最新状態。月次で変更点を収集し48時間以内に更新。固定月額制で予算管理も明確。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY IRONFRAME -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">Why Us · 選ばれる理由</div>
+    <h2 class="section-title-jp">なぜ<span>Ironframe IT</span>なのか</h2>
+    <div class="section-title-en">THE IRONFRAME DIFFERENCE</div>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-label">Credential</div>
+        <div class="why-title">英国政府レベルの経験</div>
+        <div class="why-desc">創業者は英国のGCHQ（政府通信本部）レベルのインフラエンジニアリング経験を持ちます。機密性の高い環境における文書化と知識管理に精通しています。</div>
+      </div>
+      <div class="why-card">
+        <div class="why-label">Delivery</div>
+        <div class="why-title">完全リモート・非同期対応</div>
+        <div class="why-desc">日本国内への出張不要。リモートで完結します。時差を活用した非同期ワークフローで、日本の営業時間内に成果物をお届けします。</div>
+      </div>
+      <div class="why-card">
+        <div class="why-label">Language</div>
+        <div class="why-title">バイリンガル対応</div>
+        <div class="why-desc">英日バイリンガルの文書作成に対応。日本語での成果物提供、または英日併記形式も選択可能。日本語能力向上中（JLPT取得予定）。</div>
+      </div>
+      <div class="why-card">
+        <div class="why-label">Pricing</div>
+        <div class="why-title">固定月額制・明瞭な料金</div>
+        <div class="why-desc">時間単価ではなく固定月額制。予算計画が明確で、IT導入補助金の申請にも対応しやすい形式です。</div>
+      </div>
+    </div>
+
+    <div class="subsidy-block">
+      <div class="subsidy-label">IT導入補助金 — Government Subsidy</div>
+      <div class="subsidy-title">中小企業のIT導入を政府が支援</div>
+      <div class="subsidy-amount">最大 ¥4,500,000</div>
+      <div class="subsidy-desc">経済産業省のIT導入補助金制度により、Ironframe ITのサービスに対して最大450万円の補助を受けられる可能性があります。補助金申請のサポートについてもご相談ください。</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-tag">Pricing · 料金プラン</div>
+    <h2 class="section-title-jp">シンプルで<span>透明な料金体系</span></h2>
+    <div class="section-title-en">FIXED MONTHLY RETAINER</div>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="tier-tag">Foundation · 基本</div>
+        <div class="tier-name-jp">スターターパック</div>
+        <div class="tier-price">£1,200<span>/月</span></div>
+        <div class="tier-price-jp">約¥230,000/月</div>
+        <ul class="tier-includes">
+          <li>ネットワーク文書 × 1</li>
+          <li>SOP × 1</li>
+          <li>インシデント対応テンプレート</li>
+          <li>月次更新（48時間以内）</li>
+          <li>3ヶ月最低契約</li>
+        </ul>
+      </div>
+      <div class="tier featured">
+        <div class="tier-tag">⭐ Engine · 推奨プラン</div>
+        <div class="tier-name-jp">フルスイート</div>
+        <div class="tier-price">£2,500<span>/月</span></div>
+        <div class="tier-price-jp">約¥480,000/月</div>
+        <ul class="tier-includes">
+          <li>全システム文書化</li>
+          <li>完全なランブックライブラリ</li>
+          <li>オンボーディングハンドブック</li>
+          <li>インシデント対応ランブック</li>
+          <li>ナレッジマネジメントフレームワーク</li>
+          <li>月次更新（48時間以内）</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="tier-tag">Operator · エンタープライズ</div>
+        <div class="tier-name-jp">プレミアム</div>
+        <div class="tier-price">£5,000<span>/月</span></div>
+        <div class="tier-price-jp">約¥960,000/月</div>
+        <ul class="tier-includes">
+          <li>フルスイートの全内容</li>
+          <li>四半期コンプライアンスレポート</li>
+          <li>セキュリティポリシー文書化</li>
+          <li>経営層向けダッシュボード</li>
+          <li>月次更新（24時間以内）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="wrap">
+    <div class="cta-block">
+      <div class="cta-title-jp">まずは無料サンプルから。</div>
+      <div class="cta-sub">貴社の環境に合わせたサンプル文書を無料で作成します。提案なし、証明のみ。</div>
+
+      <div class="cta-steps">
+        <div class="cta-step">
+          <div class="cta-step-num">01</div>
+          <div class="cta-step-jp">お問い合わせ。現在の課題と環境について簡単にお聞かせください。</div>
+        </div>
+        <div class="cta-step">
+          <div class="cta-step-num">02</div>
+          <div class="cta-step-jp">30分のオンライン打ち合わせ。現状の文書化状況と優先課題を確認します。</div>
+        </div>
+        <div class="cta-step">
+          <div class="cta-step-num">03</div>
+          <div class="cta-step-jp">無料サンプル文書を5営業日以内にお届け。品質をご確認いただいてからご契約。</div>
+        </div>
+      </div>
+
+      <div class="cta-contact">contact@ironframeit.co.uk · ironframeit.co.uk</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div style="border-top:1px solid var(--border);">
+  <div class="wrap">
+    <div class="footer">
+      <div>
+        <div class="footer-logo">IRON<span>FRAME</span> IT</div>
+        <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--iron-ghost);margin-top:4px;">UK & Japan · Knowledge Management Specialists</div>
+        <div style="font-family:var(--jp);font-size:11px;color:var(--iron-ghost);margin-top:2px;">英国・日本 · ナレッジマネジメント専門</div>
+      </div>
+      <div class="footer-note">
+        © 2026 Ironframe IT · All rights reserved<br>
+        Registered in England and Wales<br>
+        contact@ironframeit.co.uk
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function setLang(lang) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
